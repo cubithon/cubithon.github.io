@@ -146,10 +146,73 @@
   .fbrand{display:flex;align-items:center;gap:10px}.fbrand img{width:28px;height:28px;border-radius:7px}
   footer a{color:var(--muted)} footer a:hover{color:var(--fg)}
 
+
+  /* ===== effects ===== */
+  #fx{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+  .hero .wrap{z-index:1}
+  .cursor-glow{position:fixed;left:0;top:0;width:520px;height:520px;margin:-260px 0 0 -260px;border-radius:50%;
+    background:radial-gradient(circle,rgba(79,227,255,.09),transparent 65%);pointer-events:none;z-index:0;
+    transform:translate3d(-999px,-999px,0);transition:opacity .4s;mix-blend-mode:screen}
+  main,section,header,.stats,footer{position:relative}
+  h1.shine{background:linear-gradient(100deg,#fff 0%,#fff 38%,#9ff0ff 46%,#ff9bb5 52%,#fff 60%,#fff 100%);
+    background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s ease-in-out infinite}
+  @keyframes shine{0%,20%{background-position:120% 0}60%,100%{background-position:-30% 0}}
+  .app-id img{animation:iconPulse 4s ease-in-out infinite}
+  @keyframes iconPulse{0%,100%{box-shadow:0 10px 40px rgba(79,227,255,.25),0 0 0 1px rgba(255,255,255,.08)}
+    50%{box-shadow:0 10px 60px rgba(255,79,125,.4),0 0 0 1px rgba(255,255,255,.14)}}
+  .phone-wrap{justify-self:center;perspective:1200px;animation:float 6s ease-in-out infinite}
+  .phone{transition:transform .25s ease-out;transform-style:preserve-3d}
+  .phone::after{content:"";position:absolute;inset:-2px;border-radius:46px;padding:2px;pointer-events:none;
+    background:conic-gradient(from var(--a,0deg),transparent 0 70%,rgba(79,227,255,.9) 80%,rgba(255,79,125,.9) 90%,transparent 100%);
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
+    animation:spin 5s linear infinite}
+  @property --a{syntax:'<angle>';inherits:false;initial-value:0deg}
+  @keyframes spin{to{--a:360deg}}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+  .badge{position:relative;border-radius:12px;transition:transform .2s}
+  .badge:hover{transform:translateY(-2px) scale(1.03);text-decoration:none}
+  .badge::before{content:"";position:absolute;inset:-6px;border-radius:16px;z-index:-1;
+    background:linear-gradient(90deg,var(--pink),var(--cyan),var(--pink));background-size:200% 100%;
+    filter:blur(14px);opacity:.55;animation:glowmove 4s linear infinite}
+  @keyframes glowmove{to{background-position:200% 0}}
+  .stat b{font-variant-numeric:tabular-nums}
+  .reveal{opacity:0;transform:translateY(34px) scale(.98);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  .feat{position:relative;overflow:hidden;transition:transform .25s,border-color .25s}
+  .feat::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .3s;
+    background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(79,227,255,.16),transparent 60%)}
+  .feat:hover{transform:translateY(-4px);border-color:rgba(79,227,255,.4)}
+  .feat:hover::before{opacity:1}
+  .feat:hover .ic{background:rgba(255,79,125,.16);color:var(--pink);box-shadow:0 0 18px rgba(255,79,125,.35)}
+  .feat .ic{transition:all .3s}
+  .gallery img{transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s,border-color .35s}
+  .gallery figure:hover img{transform:translateY(-8px) scale(1.03);border-color:rgba(79,227,255,.5);
+    box-shadow:0 26px 50px rgba(0,0,0,.55),0 0 30px rgba(79,227,255,.25)}
+  .laser-sep{height:2px;margin:0 auto;max-width:1120px;position:relative;overflow:hidden;opacity:.8}
+  .laser-sep::before{content:"";position:absolute;inset:0;width:40%;
+    background:linear-gradient(90deg,transparent,var(--pink),var(--cyan),transparent);box-shadow:0 0 14px var(--cyan);
+    animation:sweep 3.5s ease-in-out infinite}
+  @keyframes sweep{from{transform:translateX(-110%)}to{transform:translateX(280%)}}
+  .worlds .frame{position:relative;border-radius:var(--radius);overflow:hidden}
+  .worlds .frame::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.12) 50%,transparent 60%);
+    background-size:300% 100%;animation:scan 5s ease-in-out infinite}
+  @keyframes scan{0%{background-position:150% 0}100%{background-position:-50% 0}}
+  .split .shot img{transition:transform .3s ease-out}
+  .final .icon{animation:float 5s ease-in-out infinite}
+  .ticks li{opacity:0;transform:translateX(-14px);transition:all .6s}
+  .in .ticks li,.ticks.in li{opacity:1;transform:none}
+  .ticks li:nth-child(2){transition-delay:.12s}.ticks li:nth-child(3){transition-delay:.24s}
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation:none!important;transition:none!important}
+    .reveal,.ticks li{opacity:1;transform:none}
+    .cursor-glow,#fx{display:none}
+  }
   @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
+<div class="cursor-glow" aria-hidden="true"></div>
 
 <nav>
   <div class="wrap">
@@ -167,14 +230,14 @@
 </nav>
 
 <header class="hero" id="top">
-  <div class="beam"></div>
+  <canvas id="fx" aria-hidden="true"></canvas>
   <div class="wrap">
     <div>
       <span class="eyebrow" data-i18n="hero.eyebrow">New on the App Store</span>
       <div class="app-id">
         <img src="assets/img/icon-512.webp" alt="CubitBeam app icon" width="92" height="92">
         <div>
-          <h1>CubitBeam</h1>
+          <h1 class="shine">CubitBeam</h1>
           <p class="subtitle" data-i18n="hero.subtitle">Laser &amp; Mirror Puzzles</p>
         </div>
       </div>
@@ -187,13 +250,13 @@
         <div class="meta" data-i18n="hero.meta"><b>Free</b> · iPhone · Plays offline</div>
       </div>
     </div>
-    <div class="phone">
+    <div class="phone-wrap"><div class="phone">
       <video id="trailer" src="assets/video/cubitbeam-trailer.mp4" poster="assets/img/trailer-poster.jpg"
              autoplay muted loop playsinline preload="metadata" aria-label="CubitBeam trailer"></video>
       <button class="sound" id="sound" type="button" aria-label="Turn sound on">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path class="w" d="m22 9-6 6M16 9l6 6"/></svg>
       </button>
-    </div>
+    </div></div>
   </div>
 </header>
 
@@ -206,6 +269,7 @@
   </div>
 </div>
 
+<div class="laser-sep" aria-hidden="true"></div>
 <section id="gallery">
   <div class="wrap">
     <h2 data-i18n="gal.title">See it in action</h2>
@@ -247,7 +311,7 @@
   <div class="wrap">
     <h2 data-i18n="w.title">Eleven worlds of light</h2>
     <p class="sec-lead" data-i18n="w.lead">From the first Optics Lab to spectral prisms, industrial logic, twin portals and layered bridges. Every chapter has its own scene.</p>
-    <img src="assets/img/worlds.webp" alt="The eleven chapter scenes of CubitBeam" loading="lazy" width="1120" height="1269">
+    <div class="frame"><img src="assets/img/worlds.webp" alt="The eleven chapter scenes of CubitBeam" loading="lazy" width="1120" height="1269"></div>
   </div>
 </section>
 
@@ -267,6 +331,7 @@
   </div>
 </section>
 
+<div class="laser-sep" aria-hidden="true"></div>
 <section class="final">
   <div class="wrap">
     <img class="icon" src="assets/img/icon-512.webp" alt="" width="110" height="110">
@@ -351,6 +416,120 @@
     s.setAttribute("aria-label", v.muted ? "Turn sound on" : "Turn sound off");
   });
   if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) { v.removeAttribute("autoplay"); v.pause(); v.controls = true; }
+
+  // ===== effects =====
+  var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var fine = window.matchMedia && matchMedia("(pointer:fine)").matches;
+
+  // reveal on scroll
+  var rs = document.querySelectorAll("h2,.sec-lead,.eyebrow,.feat,.gallery figure,.worlds .frame,.split .shot,.ticks,.final .icon,.final .cta,.stat");
+  if (!reduce && "IntersectionObserver" in window) {
+    rs.forEach(function(el){ if (!el.closest(".hero")) el.classList.add("reveal"); });
+    var groups = new Map();
+    rs.forEach(function(el){ var p = el.parentNode, i = (groups.get(p) || 0); groups.set(p, i + 1);
+      if (el.matches(".feat,.gallery figure,.stat")) el.style.transitionDelay = (i * 0.08) + "s"; });
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target);} }); }, {threshold:.15, rootMargin:"0px 0px -40px 0px"});
+    document.querySelectorAll(".reveal").forEach(function(el){ io.observe(el); });
+  } else { document.querySelectorAll(".ticks").forEach(function(t){ t.classList.add("in"); }); }
+
+  // count up stats
+  var statEls = document.querySelectorAll(".stat b");
+  if (!reduce && "IntersectionObserver" in window) {
+    var so = new IntersectionObserver(function(es){ es.forEach(function(e){
+      if (!e.isIntersecting) return; so.unobserve(e.target);
+      var el = e.target, to = +el.dataset.to, t0 = performance.now();
+      (function step(t){ var k = Math.min(1, (t - t0) / 1400), v = Math.round(to * (1 - Math.pow(1 - k, 3)));
+        el.textContent = v; if (k < 1) requestAnimationFrame(step); })(t0);
+    }); }, {threshold:.6});
+    statEls.forEach(function(el){ el.dataset.to = el.textContent; if (+el.dataset.to > 0) { el.textContent = "0"; so.observe(el); } });
+  }
+
+  // card spotlight
+  document.querySelectorAll(".feat").forEach(function(c){
+    c.addEventListener("pointermove", function(e){ var r = c.getBoundingClientRect();
+      c.style.setProperty("--mx", (e.clientX - r.left) + "px"); c.style.setProperty("--my", (e.clientY - r.top) + "px"); });
+  });
+
+  // cursor glow + phone tilt
+  var glow = document.querySelector(".cursor-glow"), phone = document.querySelector(".phone");
+  if (fine && !reduce) {
+    window.addEventListener("pointermove", function(e){
+      glow.style.transform = "translate3d(" + e.clientX + "px," + e.clientY + "px,0)";
+      var r = phone.getBoundingClientRect(); if (r.bottom < 0) return;
+      var dx = (e.clientX - (r.left + r.width / 2)) / innerWidth, dy = (e.clientY - (r.top + r.height / 2)) / innerHeight;
+      phone.style.transform = "rotateY(" + (dx * 16) + "deg) rotateX(" + (-dy * 12) + "deg)";
+    }, {passive:true});
+  } else if (glow) glow.style.display = "none";
+
+  // hero laser canvas
+  var cv = document.getElementById("fx");
+  if (cv && !reduce) {
+    var ctx = cv.getContext("2d"), W, H, dpr = Math.min(2, window.devicePixelRatio || 1), parts = [], beams = [], running = true;
+    function size(){ var r = cv.getBoundingClientRect(); W = r.width; H = r.height; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr,0,0,dpr,0,0); }
+    size(); addEventListener("resize", size);
+    for (var i = 0; i < 60; i++) parts.push({x:Math.random(), y:Math.random(), r:Math.random()*1.6+.3, v:Math.random()*.00025+.00006, a:Math.random()*Math.PI*2});
+    var COLS = ["255,79,125","79,227,255","245,207,107","170,120,255"];
+    function newBeam(){
+      // a beam entering from the left edge that bounces off 2-4 "mirrors" at 90deg turns
+      var pts = [], x = -20, y = H * (0.15 + Math.random() * 0.7), dir = 0, n = 2 + (Math.random() * 3 | 0);
+      pts.push([x, y]);
+      for (var k = 0; k < n; k++) {
+        var len = (dir % 2 === 0) ? W * (0.15 + Math.random() * 0.3) : H * (0.15 + Math.random() * 0.35);
+        if (dir === 0) x += len; else if (dir === 1) y = Math.min(H - 20, y + len); else if (dir === 3) y = Math.max(20, y - len);
+        pts.push([x, y]);
+        dir = (dir === 0) ? (y > H / 2 ? 3 : 1) : 0;
+      }
+      pts.push([W + 40, y]);
+      var total = 0; for (var j = 1; j < pts.length; j++) total += Math.hypot(pts[j][0]-pts[j-1][0], pts[j][1]-pts[j-1][1]);
+      return {pts:pts, total:total, head:0, tail:0, speed:(W + H) / 110, col:COLS[Math.random()*COLS.length|0], life:0};
+    }
+    function pointAt(b, d){
+      for (var j = 1; j < b.pts.length; j++) { var a = b.pts[j-1], c = b.pts[j], L = Math.hypot(c[0]-a[0], c[1]-a[1]);
+        if (d <= L) return [a[0] + (c[0]-a[0]) * d / L, a[1] + (c[1]-a[1]) * d / L, j]; d -= L; }
+      var e = b.pts[b.pts.length-1]; return [e[0], e[1], b.pts.length];
+    }
+    function drawBeam(b){
+      var s = pointAt(b, b.tail), e = pointAt(b, b.head);
+      ctx.beginPath(); ctx.moveTo(s[0], s[1]);
+      for (var j = s[2]; j < e[2]; j++) ctx.lineTo(b.pts[j][0], b.pts[j][1]);
+      ctx.lineTo(e[0], e[1]);
+      ctx.strokeStyle = "rgba(" + b.col + ",.18)"; ctx.lineWidth = 9; ctx.stroke();
+      ctx.strokeStyle = "rgba(" + b.col + ",.85)"; ctx.lineWidth = 2; ctx.stroke();
+      ctx.strokeStyle = "rgba(255,255,255,.7)"; ctx.lineWidth = .7; ctx.stroke();
+      // mirrors at bends that the beam has passed
+      for (var k = 1; k < b.pts.length - 1; k++) {
+        if (k >= e[2]) break; var p = b.pts[k];
+        ctx.save(); ctx.translate(p[0], p[1]); ctx.rotate(Math.PI / 4);
+        ctx.fillStyle = "rgba(200,235,255,.55)"; ctx.fillRect(-9, -1.5, 18, 3); ctx.restore();
+        ctx.beginPath(); ctx.arc(p[0], p[1], 10, 0, 7); ctx.fillStyle = "rgba(" + b.col + ",.12)"; ctx.fill();
+      }
+      // head spark
+      var g = ctx.createRadialGradient(e[0], e[1], 0, e[0], e[1], 16);
+      g.addColorStop(0, "rgba(255,255,255,.95)"); g.addColorStop(.3, "rgba(" + b.col + ",.6)"); g.addColorStop(1, "rgba(" + b.col + ",0)");
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(e[0], e[1], 16, 0, 7); ctx.fill();
+    }
+    var last = 0, spawnT = 0;
+    function frame(t){
+      if (!running) return;
+      var dt = Math.min(50, t - (last || t)); last = t;
+      ctx.clearRect(0, 0, W, H);
+      ctx.globalCompositeOperation = "lighter";
+      parts.forEach(function(p){ p.y -= p.v * dt; p.a += dt * .002; if (p.y < -0.02) { p.y = 1.02; p.x = Math.random(); }
+        ctx.beginPath(); ctx.arc(p.x * W, p.y * H, p.r, 0, 7); ctx.fillStyle = "rgba(160,225,255," + (.25 + .25 * Math.sin(p.a)) + ")"; ctx.fill(); });
+      spawnT -= dt;
+      if (spawnT <= 0 && beams.length < 3) { beams.push(newBeam()); spawnT = 1400 + Math.random() * 1600; }
+      beams = beams.filter(function(b){
+        b.head = Math.min(b.total, b.head + b.speed * dt / 16);
+        if (b.head >= b.total || b.head > b.total * .55) b.tail = Math.min(b.total, b.tail + b.speed * dt / 16);
+        if (b.tail < b.total) { drawBeam(b); return true; } return false; });
+      ctx.globalCompositeOperation = "source-over";
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+    if ("IntersectionObserver" in window) new IntersectionObserver(function(es){ var vis = es[0].isIntersecting;
+      if (vis && !running) { running = true; last = 0; requestAnimationFrame(frame); } else if (!vis) running = false; }).observe(cv);
+    document.addEventListener("visibilitychange", function(){ if (document.hidden) running = false; else if (!running) { running = true; last = 0; requestAnimationFrame(frame); } });
+  }
 })();
 </script>
 </body>
